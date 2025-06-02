@@ -4,6 +4,7 @@ let board = [];
 let currentPlayer = 1;
 let xColor = "black";
 let oColor = "red";
+let selectedCell = null;
 
 function setup() {
   createCanvas(800, 400);
@@ -61,4 +62,53 @@ function drawO(col, row) {
   let centerY = row * cellSize + cellSize / 2;
   let radius = cellSize * 0.3;
   ellipse(centerX, centerY, radius * 2);
+}
+
+function mousePressed() {
+  let col = floor(mouseX / cellSize);
+  let row = floor(mouseY / cellSize);
+
+  if (col < 0 || col >= size || row < 0 || row >= size) return;
+
+  if (!selectedCell) {
+    if (isOnEdge(row, col) && (board[row][col] === 0 || board[row][col] === currentPlayer)) {
+      selectedCell = { row, col };
+    }
+  } else {
+    let target = { row, col };
+    if (isOnEdge(target.row, target.col) && isSameLineOrColumn(selectedCell, target)) {
+      moveLine(selectedCell, target);
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      selectedCell = null;
+    } else {
+      selectedCell = null;
+    }
+  }
+}
+
+function isOnEdge(row, col) {
+  return row === 0 || row === size - 1 || col === 0 || col === size - 1;
+}
+
+function isSameLineOrColumn(a, b) {
+  return a.row === b.row || a.col === b.col;
+}
+
+function moveLine(from, to) {
+  if (from.row === to.row) {
+    let row = board[from.row];
+    if (from.col < to.col) {
+      for (let i = from.col; i < to.col; i++) row[i] = row[i + 1];
+    } else {
+      for (let i = from.col; i > to.col; i--) row[i] = row[i - 1];
+    }
+    row[to.col] = currentPlayer;
+  } else if (from.col === to.col) {
+    if (from.row < to.row) {
+      for (let i = from.row; i < to.row; i++) board[i][from.col] = board[i + 1][from.col];
+    } else {
+      for (let i = from.row; i > to.row; i--) board[i][from.col] = board[i - 1][from.col];
+    }
+    board[to.row][from.col] = currentPlayer;
+  }
 }
