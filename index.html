@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,36 +9,46 @@
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
     <script src="scriptCanvas.js"></script>
 </head>
+
 <body>
     <div style="margin-bottom: 10px;">
-    <label>Player 1 Name: <input type="text" id="player1Name" placeholder="Player X" /></label>
-    <label>Player 2 Name: <input type="text" id="player2Name" placeholder="Player O" /></label>
-    <button onclick="setNames()">Set Names</button>
-  </div>
+        <label>Player 1 Name: <input type="text" id="player1Name" placeholder="Player X" /></label>
+        <label>Player 2 Name: <input type="text" id="player2Name" placeholder="Player O" /></label>
+        <button onclick="setNames()">Set Names</button>
+    </div>
 
+    <div style="margin-bottom: 10px;">
+        <label>Game Mode:
+            <select id="gameMode" onchange="changeGameMode()">
+                <option value="human">Human - Human</option>
+                <option value="dummy">Human - Dummy</option>
+                <option value="smarty">Human - Smarty</option>
+            </select>
+        </label>
+    </div>
 
-
-  <div style="margin-bottom: 10px;">
-    <label>Timer:
-      <select id="timerSelect">
-        <option value="60">1 minute</option>
-        <option value="90">1:30 minutes</option>
-        <option value="120">2 minutes</option>
-      </select>
-      <button onclick="startTimer()">Start Timer</button>
-      <button onclick="stopTimer()">Stop Timer</button>
-    </label>
-    <span id="timerDisplay"></span>
-  </div>
-  <div style="margin-bottom: 10px;">
-  <label for="theme">Theme:</label>
-  <select id="theme" onchange="applyTheme()">
-    <option value="default">Default</option>
-    <option value="winter">Winter</option>
-    <option value="spring">Spring</option>
-    <option value="summer">Summer</option>
-    <option value="autumn">Autumn</option>
-  </select>
-</div>
+    <div style="margin-bottom: 10px;">
+        <label>Timer:
+            <select id="timerSelect">
+                <option value="60">1 minute</option>
+                <option value="90">1:30 minutes</option>
+                <option value="120">2 minutes</option>
+            </select>
+            <button onclick="startTimer()">Start Timer</button>
+            <button onclick="stopTimer()">Stop Timer</button>
+        </label>
+        <span id="timerDisplay"></span>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label for="theme">Theme:</label>
+        <select id="theme" onchange="applyTheme()">
+            <option value="default">Default</option>
+            <option value="winter">Winter</option>
+            <option value="spring">Spring</option>
+            <option value="summer">Summer</option>
+            <option value="autumn">Autumn</option>
+        </select>
+    </div>
 </body>
+
 </html>
