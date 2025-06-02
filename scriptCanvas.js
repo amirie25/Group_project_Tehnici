@@ -242,7 +242,6 @@ function dummyAI() {
 }
 
 function smartyAI() {
-    // 1. Try to find a winning move for AI (player 2)
     let winningMove = findCriticalMove(2);
     if (winningMove) {
         moveLine(winningMove.from, winningMove.to);
@@ -255,7 +254,6 @@ function smartyAI() {
         return;
     }
 
-    // 2. Try to find a blocking move against opponent (player 1)
     let blockingMove = findCriticalMove(1);
     if (blockingMove) {
         moveLine(blockingMove.from, blockingMove.to);
@@ -263,7 +261,6 @@ function smartyAI() {
         return;
     }
 
-    // 3. If no critical moves, fall back to dummyAI
     dummyAI();
 }
 
