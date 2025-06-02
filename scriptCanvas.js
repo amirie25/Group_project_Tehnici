@@ -314,3 +314,8 @@ function getEdgeTargets(cell) {
   if (cell.row === size - 1) targets.push({ row: 0, col: cell.col });
   return targets;
 }
+
+function smartyAI() {
+
+    dummyAI();
+}
