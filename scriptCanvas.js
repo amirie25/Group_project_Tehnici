@@ -465,3 +465,39 @@ function draw() {
     noLoop();
   }
 }
+
+function isOnEdge(row, col) {
+  return row === 0 || row === size - 1 || col === 0 || col === size - 1;
+}
+
+function isSameLineOrColumn(a, b) {
+  return a.row === b.row || a.col === b.col;
+}
+
+function getEdgeTargets(cell) {
+  let targets = [];
+  if (cell.col === 0) targets.push({ row: cell.row, col: size - 1 });
+  if (cell.col === size - 1) targets.push({ row: cell.row, col: 0 });
+  if (cell.row === 0) targets.push({ row: size - 1, col: cell.col });
+  if (cell.row === size - 1) targets.push({ row: 0, col: cell.col });
+  return targets;
+}
+
+function moveLine(from, to) {
+  if (from.row === to.row) {
+    let row = board[from.row];
+    if (from.col < to.col) {
+      for (let i = from.col; i < to.col; i++) row[i] = row[i + 1];
+    } else {
+      for (let i = from.col; i > to.col; i--) row[i] = row[i - 1];
+    }
+    row[to.col] = currentPlayer;
+  } else if (from.col === to.col) {
+    if (from.row < to.row) {
+      for (let i = from.row; i < to.row; i++) board[i][from.col] = board[i + 1][from.col];
+    } else {
+      for (let i = from.row; i > to.row; i--) board[i][from.col] = board[i - 1][from.col];
+    }
+    board[to.row][from.col] = currentPlayer;
+  }
+}
