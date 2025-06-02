@@ -319,3 +319,16 @@ function smartyAI() {
 
     dummyAI();
 }
+
+function getRow(r) {
+  return board[r];
+}
+
+function getCol(c) {
+  return board.map(row => row[c]);
+}
+
+function getDiagonal(type) {
+  if (type === 1) return board.map((row, i) => row[i]);
+  else return board.map((row, i) => row[size - 1 - i]);
+}
