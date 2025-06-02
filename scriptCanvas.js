@@ -1,19 +1,33 @@
-let borderWidth = 0
-let borderHeight = 0
+let size = 5;
+let cellSize;
+let board = [];
+let currentPlayer = 1;
+let currentColors = ["#ffffff", "#cccccc"];
 
 function setup() {
-    createCanvas(windowWidth, windowHeight)
-    borderWidth = windowWidth
-    borderHeight = windowHeight
+    createCanvas(800, 400);
+  cellSize = min(width, height) / size;
+  resetBoard();
 }
 
 function draw() {
-    background("#ffdfff")
-    piecesPlayer1();
+     background(240);
+  drawBoard();
 }
 
-function piecesPlayer1() {
-    fill("#ff8ef1");
-    quad(40, 50, 60, 50, 160, 170, 140, 170);
-    quad(140, 50, 160, 50, 60, 170, 40, 170);
+function resetBoard() {
+  board = Array.from({ length: size }, () => Array(size).fill(0));
+  currentPlayer = 1;
+}
+
+function drawBoard() {
+  strokeWeight(2);
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      let colorIndex = (i + j) % 2;
+      fill(currentColors[colorIndex]);
+      stroke(0);
+      rect(j * cellSize, i * cellSize, cellSize, cellSize);
+    }
+  }
 }
