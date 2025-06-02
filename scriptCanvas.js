@@ -320,6 +320,56 @@ function smartyAI() {
     dummyAI();
 }
 
+function findMoveInLine(line, index, lineType, player) {
+  let count = line.filter(v => v === player).length;
+  let emptyIndices = line.reduce((acc, v, i) => v === 0 ? acc.concat(i) : acc, []);
+
+  if (count === size - 1 && emptyIndices.length === 1) {
+    let emptyIndex = emptyIndices[0];
+    let from, to;
+
+    if (lineType === 'row') {
+      if (isOnEdge(index, 0) && (board[index][0] === 0 || board[index][0] === player))
+        from = { row: index, col: 0 };
+      else if (isOnEdge(index, size - 1) && (board[index][size - 1] === 0 || board[index][size - 1] === player))
+        from = { row: index, col: size - 1 };
+      else return null;
+
+      to = { row: index, col: emptyIndex };
+
+    } else if (lineType === 'col') {
+      if (isOnEdge(0, index) && (board[0][index] === 0 || board[0][index] === player))
+        from = { row: 0, col: index };
+      else if (isOnEdge(size - 1, index) && (board[size - 1][index] === 0 || board[size - 1][index] === player))
+        from = { row: size - 1, col: index };
+      else return null;
+
+      to = { row: emptyIndex, col: index };
+
+    } else if (lineType === 'diag1') {
+      if (isOnEdge(0, 0) && (board[0][0] === 0 || board[0][0] === player))
+        from = { row: 0, col: 0 };
+      else if (isOnEdge(size - 1, size - 1) && (board[size - 1][size - 1] === 0 || board[size - 1][size - 1] === player))
+        from = { row: size - 1, col: size - 1 };
+      else return null;
+
+      to = { row: emptyIndex, col: emptyIndex };
+
+    } else if (lineType === 'diag2') {
+      if (isOnEdge(0, size - 1) && (board[0][size - 1] === 0 || board[0][size - 1] === player))
+        from = { row: 0, col: size - 1 };
+      else if (isOnEdge(size - 1, 0) && (board[size - 1][0] === 0 || board[size - 1][0] === player))
+        from = { row: size - 1, col: 0 };
+      else return null;
+
+      to = { row: emptyIndex, col: size - 1 - emptyIndex };
+    }
+
+    if (from && to) return { from, to };
+  }
+  return null;
+}
+
 function getRow(r) {
   return board[r];
 }
