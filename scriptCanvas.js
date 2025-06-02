@@ -9,6 +9,11 @@ let selectedCell = null;
 let winningMessage = "";
 let playerNames = ["Player X", "Player O"];
 let gameMode = "human";
+let timerDuration = 0;
+let timerInterval;
+let timerTimeLeft = 0;
+let gamePaused = false;
+
 
 
 function setup() {
@@ -175,4 +180,37 @@ function draw() {
     fill("blue");
     text(winningMessage, width / 2, height / 2);
   }
+}
+
+function startTimer() {
+  let time = parseInt(document.getElementById("timerSelect").value);
+  timerTimeLeft = time;
+  timerDuration = time;
+  gamePaused = false;
+
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timerTimeLeft--;
+    document.getElementById("timerDisplay").innerText = `Time: ${timerTimeLeft}s`;
+
+    if (timerTimeLeft <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById("timerDisplay").innerText = "Time's up!";
+      gamePaused = true;
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  gamePaused = true;
+  document.getElementById("timerDisplay").innerText = `Paused at: ${timerTimeLeft}s`;
+}
+
+function resetTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerTimeLeft = timerDuration;  
+  gamePaused = false;
+  document.getElementById("timerDisplay").innerText = `Time: ${timerTimeLeft}s`;
+  startTimer();
 }
