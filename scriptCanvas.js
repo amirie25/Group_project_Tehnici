@@ -244,3 +244,73 @@ function draw() {
     noLoop();
   }
 }
+
+function dummyAI() {
+  let options = [];
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      if (isOnEdge(r, c) && (board[r][c] === 0 || board[r][c] === 2)) {
+        options.push({ row: r, col: c });
+      }
+    }
+  }
+
+  while (options.length > 0) {
+    let selected = options.splice(floor(random(options.length)), 1)[0];
+    let targets = getEdgeTargets(selected);
+    if (targets.length > 0) {
+      let target = random(targets);
+      moveLine(selected, target);
+      if (checkWin(2)) {
+        winningMessage = "Dummy wins!";
+        noLoop();
+      }
+      currentPlayer = 1;
+      break;
+    }
+  }
+}
+
+function mousePressed() {
+  if (winningMessage) return;
+
+  let col = floor(mouseX / cellSize);
+  let row = floor(mouseY / cellSize);
+
+  if (col < 0 || col >= size || row < 0 || row >= size) return;
+
+  if (!selectedCell) {
+    if (isOnEdge(row, col) && (board[row][col] === 0 || board[row][col] === currentPlayer)) {
+      selectedCell = { row, col };
+    }
+  } else {
+    let target = { row, col };
+    if (isOnEdge(target.row, target.col) && isSameLineOrColumn(selectedCell, target)) {
+      moveLine(selectedCell, target);
+
+      if (checkWin(currentPlayer)) {
+        winningMessage = `${playerNames[currentPlayer - 1]} won!`;
+        noLoop();
+        return;
+      }
+
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      selectedCell = null;
+
+      if (gameMode === "dummy" && currentPlayer === 2) {
+        setTimeout(dummyAI, 500);
+      }
+    } else {
+      selectedCell = null;
+    }
+  }
+}
+
+function getEdgeTargets(cell) {
+  let targets = [];
+  if (cell.col === 0) targets.push({ row: cell.row, col: size - 1 });
+  if (cell.col === size - 1) targets.push({ row: cell.row, col: 0 });
+  if (cell.row === 0) targets.push({ row: size - 1, col: cell.col });
+  if (cell.row === size - 1) targets.push({ row: 0, col: cell.col });
+  return targets;
+}
