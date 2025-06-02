@@ -1,0 +1,54 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+#mainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+#canvas-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+canvas {
+  border: 2px solid #000;
+  background-color: #fff;
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+#controls label,
+#controls select,
+#controls input,
+#controls button,
+#controls p {
+  font-size: 16px;
+}
+
+#controls button {
+  padding: 5px 10px;
+}
+
+#status,
+#timerDisplay {
+  font-weight: bold;
+  font-size: 18px;
+}
