@@ -7,6 +7,8 @@ let xColor = "black";
 let oColor = "red";
 let selectedCell = null;
 let winningMessage = "";
+let playerNames = ["Player X", "Player O"];
+let gameMode = "human";
 
 function setup() {
     createCanvas(800, 400);
@@ -138,4 +140,39 @@ function checkWin(player) {
   if (board.every((row, i) => row[i] === player)) return true;
   if (board.every((row, i) => row[size - 1 - i] === player)) return true;
   return false;
+}
+
+function setNames() {
+  let name1 = document.getElementById("player1Name").value.trim();
+  let name2 = document.getElementById("player2Name").value.trim();
+
+  playerNames[0] = name1 || "Player X";
+  playerNames[1] = name2 || (gameMode === "dummy" ? "Dummy" : gameMode === "smarty" ? "Smarty" : "Player O");
+
+  redraw();
+}
+
+function changeGameMode() {
+  gameMode = document.getElementById("gameMode").value;
+  playerNames[1] = gameMode === "dummy" ? "Dummy" : gameMode === "smarty" ? "Smarty" : "Player O";
+  resetBoard();
+}
+
+// Update draw to show turn with player name
+function draw() {
+  background(240);
+  drawBoard();
+  drawPieces();
+
+  fill(0);
+  textSize(20);
+  textAlign(LEFT);
+  text(`Turn: ${playerNames[currentPlayer - 1]}`, 10, height - 10);
+
+  if (winningMessage) {
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    fill("blue");
+    text(winningMessage, width / 2, height / 2);
+  }
 }
