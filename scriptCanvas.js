@@ -328,6 +328,13 @@ function smartyAI() {
     return;
   }
 
+  let blockingMove = findCriticalMove(1);
+  if (blockingMove) {
+    moveLine(blockingMove.from, blockingMove.to);
+    currentPlayer = 1;
+    return;
+  }
+
     dummyAI();
 }
 
