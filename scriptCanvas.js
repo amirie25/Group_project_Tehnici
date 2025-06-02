@@ -214,3 +214,36 @@ function resetTimer() {
   document.getElementById("timerDisplay").innerText = `Time: ${timerTimeLeft}s`;
   startTimer();
 }
+
+function applyTheme() {
+  const theme = document.getElementById("theme").value;
+
+  switch (theme) {
+    case "winter":
+      currentColors = ["#e0f7fa", "#b2ebf2"];
+      xColor = "#0d47a1";
+      oColor = "#004d40";
+      break;
+    case "spring":
+      currentColors = ["#c8e6c9", "#81c784"];
+      xColor = "#2e7d32";
+      oColor = "#1b5e20";
+      break;
+    case "summer":
+      currentColors = ["#fff9c4", "#fff176"];
+      xColor = "#f57f17";
+      oColor = "#ef6c00";
+      break;
+    case "autumn":
+      currentColors = ["#ffe0b2", "#ffb74d"];
+      xColor = "#bf360c";
+      oColor = "#6d4c41";
+      break;
+    default:
+      currentColors = ["#ffffff", "#cccccc"];
+      xColor = "black";
+      oColor = "red";
+  }
+
+  redraw();
+}
