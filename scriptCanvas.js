@@ -5,6 +5,7 @@ let currentPlayer = 1;
 let xColor = "black";
 let oColor = "red";
 let selectedCell = null;
+let winningMessage = "";
 
 function setup() {
   createCanvas(800, 400);
@@ -16,6 +17,19 @@ function draw() {
   background(240);
   drawBoard();
   drawPieces();
+
+   fill(0);
+  textSize(20);
+  textAlign(LEFT);
+  text(`Turn: Player ${currentPlayer === 1 ? "X" : "O"}`, 10, height - 10);
+
+  if (winningMessage) {
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    fill("blue");
+    text(winningMessage, width / 2, height / 2);
+    noLoop();
+  }
 }
 
 function resetBoard() {
@@ -111,4 +125,22 @@ function moveLine(from, to) {
     }
     board[to.row][from.col] = currentPlayer;
   }
+}
+
+function moveLine(from, to) {
+
+  if (checkWin(currentPlayer)) {
+    winningMessage = `Player ${currentPlayer === 1 ? "X" : "O"} won!`;
+    noLoop();
+  }
+}
+
+function checkWin(player) {
+  for (let i = 0; i < size; i++) {
+    if (board[i].every(cell => cell === player)) return true;
+    if (board.map(row => row[i]).every(cell => cell === player)) return true;
+  }
+  if (board.every((row, i) => row[i] === player)) return true;
+  if (board.every((row, i) => row[size - 1 - i] === player)) return true;
+  return false;
 }
