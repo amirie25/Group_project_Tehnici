@@ -317,6 +317,17 @@ function getEdgeTargets(cell) {
 
 function smartyAI() {
 
+    let winningMove = findCriticalMove(2);
+  if (winningMove) {
+    moveLine(winningMove.from, winningMove.to);
+    if (checkWin(2)) {
+      winningMessage = "Smarty wins!";
+      noLoop();
+    }
+    currentPlayer = 1;
+    return;
+  }
+
     dummyAI();
 }
 
