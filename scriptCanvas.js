@@ -370,6 +370,24 @@ function findMoveInLine(line, index, lineType, player) {
   return null;
 }
 
+function findCriticalMove(player) {
+  for (let i = 0; i < size; i++) {
+    let move = findMoveInLine(getRow(i), i, 'row', player);
+    if (move) return move;
+
+    move = findMoveInLine(getCol(i), i, 'col', player);
+    if (move) return move;
+  }
+
+  let move = findMoveInLine(getDiagonal(1), null, 'diag1', player);
+  if (move) return move;
+
+  move = findMoveInLine(getDiagonal(2), null, 'diag2', player);
+  if (move) return move;
+
+  return null;
+}
+
 function getRow(r) {
   return board[r];
 }
