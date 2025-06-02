@@ -6,11 +6,21 @@ let xColor = "black";
 let oColor = "red";
 let selectedCell = null;
 let winningMessage = "";
+let currentColors = ["#ffffff", "#cccccc"];
+
 
 function setup() {
   createCanvas(800, 400);
   cellSize = min(width, height) / size;
   resetBoard();
+
+  let resetBtn = createButton("Reset Game");
+  resetBtn.position(7, 535);
+  resetBtn.mousePressed(() => {
+    resetBoard();
+    winningMessage = "";
+    loop();
+  });
 }
 
 function draw() {
@@ -143,4 +153,57 @@ function checkWin(player) {
   if (board.every((row, i) => row[i] === player)) return true;
   if (board.every((row, i) => row[size - 1 - i] === player)) return true;
   return false;
+}
+
+function resetBoard() {
+  board = Array.from({ length: size }, () => Array(size).fill(0));
+  currentPlayer = 1;
+  selectedCell = null;
+  winningMessage = "";
+  loop();
+}
+
+function applyTheme() {
+  const theme = document.getElementById("theme").value;
+
+  switch (theme) {
+    case "winter":
+      currentColors = ["#e0f7fa", "#b2ebf2"];
+      xColor = "#0d47a1";
+      oColor = "#004d40";
+      break;
+    case "spring":
+      currentColors = ["#c8e6c9", "#81c784"];
+      xColor = "#2e7d32";
+      oColor = "#1b5e20";
+      break;
+    case "summer":
+      currentColors = ["#fff59d", "#fbc02d"];
+      xColor = "#f57f17";
+      oColor = "#ff6f00";
+      break;
+    case "autumn":
+      currentColors = ["#ffe0b2", "#ff8a65"];
+      xColor = "#e65100";
+      oColor = "#bf360c";
+      break;
+    default:
+      currentColors = ["#ffffff", "#cccccc"];
+      xColor = "black";
+      oColor = "red";
+  }
+
+  redraw();
+}
+
+function drawBoard() {
+  strokeWeight(2);
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      let colorIndex = (i + j) % 2;
+      fill(currentColors[colorIndex]);
+      stroke(0);
+      rect(j * cellSize, i * cellSize, cellSize, cellSize);
+    }
+  }
 }
