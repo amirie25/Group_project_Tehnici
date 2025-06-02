@@ -10,6 +10,7 @@ let winningMessage = "";
 let playerNames = ["Player X", "Player O"];
 let gameMode = "human";
 
+
 function setup() {
     createCanvas(800, 400);
   cellSize = min(width, height) / size;
@@ -158,7 +159,6 @@ function changeGameMode() {
   resetBoard();
 }
 
-// Update draw to show turn with player name
 function draw() {
   background(240);
   drawBoard();
