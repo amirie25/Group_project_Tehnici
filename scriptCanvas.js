@@ -9,6 +9,9 @@ let winningMessage = "";
 let currentColors = ["#ffffff", "#cccccc"];
 let playerNames = ["Player X", "Player O"];
 let gameMode = "human";
+let timerSeconds = 60;
+let timerInterval = null;
+let timerActive = false;
 
 
 function setup() {
@@ -417,4 +420,48 @@ function getCol(c) {
 function getDiagonal(type) {
   if (type === 1) return board.map((row, i) => row[i]);
   else return board.map((row, i) => row[size - 1 - i]);
+}
+
+function startTimer() {
+  if (timerActive) return;
+  timerActive = true;
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerActive = false;
+      winningMessage = "Time's up! Game Over.";
+      noLoop();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerActive = false;
+}
+
+function resetTimer() {
+  timerSeconds = 60;
+  stopTimer();
+}
+
+function draw() {
+  background(240);
+  drawBoard();
+  drawPieces();
+
+  fill(0);
+  textSize(20);
+  textAlign(LEFT);
+  text(`Turn: ${playerNames[currentPlayer - 1]}`, 10, height - 30);
+  text(`Timer: ${timerSeconds}s`, 10, height - 10);
+
+  if (winningMessage) {
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    fill("blue");
+    text(winningMessage, width / 2, height / 2);
+    noLoop();
+  }
 }
